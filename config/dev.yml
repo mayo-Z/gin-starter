@@ -1,0 +1,30 @@
+server:
+  port: 8090
+
+datasource:
+  driverName: mysql
+  name: root
+  password:
+  host:
+  port: 3306
+  database:
+  charset: utf8
+  parseTime: True
+  loc: Local
+
+redis:
+  size: 10
+  network:  tcp
+  address:
+  password:
+  key:  secret
+
+swagger:
+  title: contentsSystem swagger API
+  desc: This is a doc
+  host: 127.0.0.1:8090
+  base_path: /
+  version: 1.0
+  address: http://127.0.0.1:8090/swagger/index.html
+
+
