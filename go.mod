@@ -2,6 +2,7 @@ module gin-starter
 
 go 1.20
 
+
 require (
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.9.1
@@ -12,13 +13,9 @@ require (
 	github.com/spf13/viper v1.9.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
-	github.com/swaggo/swag v1.16.1
 	golang.org/x/crypto v0.11.0
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/gorm v1.25.2
-)
-
-require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/boj/redistore v0.0.0-20180917114910-cd5dcc76aeff // indirect
 	github.com/bytedance/sonic v1.9.2 // indirect
@@ -55,6 +52,7 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
+	github.com/swaggo/swag v1.16.1 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	golang.org/x/arch v0.4.0 // indirect

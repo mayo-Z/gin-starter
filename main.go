@@ -12,5 +12,5 @@ func main() {
 	dao.InitDB()
 	r := route.InitRouter()
 	port := viper.GetString("server.port")
-	r.Run(":" + port)
+	_ = r.Run(":" + port)
 }
