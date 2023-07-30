@@ -69,16 +69,21 @@ func (a *AdminController) ChangePwd(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2001, err)
 		return
 	}
-	db := dao.GetDB()
+
 	admin := &dao.Admin{}
-	admin, err := admin.Find(db, adminSessionInfo.Uid)
+	admin, err := admin.Find(adminSessionInfo.Uid)
 	if err != nil {
 		middleware.ResponseError(ctx, 2002, err)
 		return
 	}
 	hashedPassword, _ := public.SetHashedPassword(params.Password)
 	admin.Password = hashedPassword
-	err = admin.Update(db)
+	newContent := map[string]interface{}{
+		"Id":       admin.Id,
+		"Username": admin.Username,
+		"Password": params.Password,
+	}
+	err = admin.Update(newContent)
 	if err != nil {
 		middleware.ResponseError(ctx, 2003, err)
 		return

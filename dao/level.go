@@ -19,14 +19,14 @@ func (receiver *Level) TableName() string {
 }
 
 // FindAll 分页查询
-func (receiver *Level) FindAll(db *gorm.DB, page int, pageSize int) (res []*Level, count int64, err error) {
+func (receiver *Level) FindAll(page int, pageSize int) (res []*Level, count int64, err error) {
 	var result *gorm.DB
 	result = db.Table(receiver.TableName()).Where("deleted_at is null ").Count(&count).Offset((page - 1) * pageSize).Limit(pageSize).Find(&res)
 	return res, count, result.Error
 }
 
 // Check 检查数据是否已存在
-func (receiver *Level) Check(db *gorm.DB, name string) bool {
+func (receiver *Level) Check(name string) bool {
 	row := db.Where(" name = ? ", name).First(&receiver)
 	fmt.Println("err:", row.Error)
 	if row.Error == nil {
@@ -36,7 +36,7 @@ func (receiver *Level) Check(db *gorm.DB, name string) bool {
 }
 
 // EditCheck 检查数据是否已存在
-func (receiver *Level) EditCheck(db *gorm.DB, id uint64, name string) bool {
+func (receiver *Level) EditCheck(id uint64, name string) bool {
 	row := db.Where(" name = ? AND id != ?", name, id).First(&receiver)
 	fmt.Println("err:", row.Error)
 	if row.Error == nil {
@@ -46,19 +46,19 @@ func (receiver *Level) EditCheck(db *gorm.DB, id uint64, name string) bool {
 }
 
 // Create 创建
-func (receiver *Level) Create(db *gorm.DB, newContent *Level) {
+func (receiver *Level) Create(newContent *Level) {
 
 	db.Create(&newContent)
 }
 
 // Edit 编辑
-func (receiver *Level) Edit(db *gorm.DB, newContent map[string]interface{}) error {
+func (receiver *Level) Edit(newContent map[string]interface{}) error {
 	result := db.Model(receiver).Where(" id= ?", newContent["Id"]).Updates(&newContent)
 	return result.Error
 }
 
 // SoftDelete 批量软删除，传id数组
-func (receiver *Level) SoftDelete(db *gorm.DB, ids []uint64) error {
+func (receiver *Level) SoftDelete(ids []uint64) error {
 	for _, id := range ids {
 		result := db.Where(" id = ?", id).Delete(&receiver)
 		if result.Error != nil {

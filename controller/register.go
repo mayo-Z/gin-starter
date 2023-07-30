@@ -37,12 +37,12 @@ func (*RegisterController) Register(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2001, err)
 		return
 	}
-	db := dao.GetDB()
-	if err := dao.RegisterCheck(db, params); err != nil {
+
+	if err := dao.RegisterCheck(params); err != nil {
 		middleware.ResponseError(ctx, 2002, err)
 		return
 	}
-
+	db := dao.GetDB()
 	//	创建用户
 	hashedPassword, err := public.SetHashedPassword(params.Password)
 	if err != nil {
@@ -53,7 +53,7 @@ func (*RegisterController) Register(ctx *gin.Context) {
 		Username: params.Username,
 		Password: hashedPassword,
 	}
-	if !newUser.Check(db, params.Username) {
+	if !newUser.Check(params.Username) {
 		middleware.ResponseError(ctx, 2003, errors.New("用户名已存在"))
 		return
 	}
@@ -78,9 +78,9 @@ func (*RegisterController) Login(ctx *gin.Context) {
 		return
 	}
 	//数据库验证
-	db := dao.GetDB()
+
 	admin := &dao.Admin{}
-	admin, err := admin.LoginCheck(db, params)
+	admin, err := admin.LoginCheck(params)
 	if err != nil {
 		middleware.ResponseError(ctx, 2002, err)
 		return
@@ -145,9 +145,9 @@ func (*RegisterController) Logout(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2001, err)
 		return
 	}
-	db := dao.GetDB()
+
 	admin := &dao.Admin{}
-	err := admin.Delete(db, adminSessionInfo.Uid)
+	err := admin.Delete(adminSessionInfo.Uid)
 	if err != nil {
 		middleware.ResponseError(ctx, 2002, err)
 		return

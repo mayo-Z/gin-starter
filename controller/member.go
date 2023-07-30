@@ -37,9 +37,9 @@ func (*MemberController) Get(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2001, err)
 		return
 	}
-	db := dao.GetDB()
+
 	content := &dao.Level{}
-	detail, count, _ := content.FindAll(db, int(params.Page), int(params.Size))
+	detail, count, _ := content.FindAll(int(params.Page), int(params.Size))
 	outData := []dto.LevelOutput{}
 	for _, d := range detail {
 		outData = append(outData, dto.LevelOutput{
@@ -73,10 +73,10 @@ func (*MemberController) Create(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2001, err)
 		return
 	}
-	db := dao.GetDB()
+
 	content := &dao.Level{}
 	//检查会员等级名是否存在
-	if !content.Check(db, params.Name) {
+	if !content.Check(params.Name) {
 		middleware.ResponseError(ctx, 2002, errors.New("栏目已存在"))
 		return
 	}
@@ -85,7 +85,7 @@ func (*MemberController) Create(ctx *gin.Context) {
 		OrderBy: params.OrderBy,
 		Status:  params.Status,
 	}
-	content.Create(db, newContent)
+	content.Create(newContent)
 	middleware.ResponseSuccess(ctx, "创建成功")
 }
 
@@ -102,9 +102,9 @@ func (*MemberController) Edit(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2001, err)
 		return
 	}
-	db := dao.GetDB()
+
 	content := &dao.Level{}
-	if !content.EditCheck(db, params.Id, params.Name) {
+	if !content.EditCheck(params.Id, params.Name) {
 		middleware.ResponseError(ctx, 2002, errors.New("栏目已存在"))
 		return
 	}
@@ -114,7 +114,7 @@ func (*MemberController) Edit(ctx *gin.Context) {
 		"OrderBy": params.OrderBy,
 		"Status":  params.Status,
 	}
-	err := content.Edit(db, newContent)
+	err := content.Edit(newContent)
 	if err != nil {
 		middleware.ResponseError(ctx, 2003, err)
 		return
@@ -135,9 +135,9 @@ func (*MemberController) Delete(ctx *gin.Context) {
 		middleware.ResponseError(ctx, 2001, err)
 		return
 	}
-	db := dao.GetDB()
+
 	content := &dao.Level{}
-	if err := content.SoftDelete(db, params.Ids); err != nil {
+	if err := content.SoftDelete(params.Ids); err != nil {
 		middleware.ResponseError(ctx, 2002, err)
 		return
 	}
