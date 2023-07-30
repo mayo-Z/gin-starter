@@ -14,24 +14,24 @@ type MemberController struct{}
 func MemberRegister(group *gin.RouterGroup) {
 	content := &MemberController{}
 	//----------------------------会员等级----------------------------------------------
-	group.GET("/getLevels", content.GetLevels)
+	group.GET("/getLevels", content.Get)
 	//---------------------------------------------------------------------------------
-	group.POST("/createLevels", content.CreateLevels)
-	group.PUT("/editLevels", content.EditLevels)
-	group.DELETE("/delLevels", content.DelLevels)
+	group.POST("/createLevels", content.Create)
+	group.PUT("/editLevels", content.Edit)
+	group.DELETE("/delLevels", content.Delete)
 
 }
 
 //----------------------------会员等级----------------------------------------------
 
-// GetLevels godoc
+// Get godoc
 // @Summary 分页获取所有等级
 // @Tags 会员等级接口
 // @ID /member/getLevels
 // @Param input query dto.GetLevelsInput true "分页查询数据"
 // @Success 200 {object} middleware.Response{data=dto.LevelPaginationOutput} "success"
 // @Router /member/getLevels [get]
-func (*MemberController) GetLevels(ctx *gin.Context) {
+func (*MemberController) Get(ctx *gin.Context) {
 	params := &dto.GetLevelsInput{}
 	if err := params.BindValidParam(ctx); err != nil {
 		middleware.ResponseError(ctx, 2001, err)
@@ -60,14 +60,14 @@ func (*MemberController) GetLevels(ctx *gin.Context) {
 	middleware.ResponseSuccess(ctx, out)
 }
 
-// CreateLevels godoc
+// Create godoc
 // @Summary 创建等级
 // @Tags 会员等级接口
 // @ID /member/createLevels
 // @Param param body dto.CreateLevelInput true "创建数据"
 // @Success 200 {object} middleware.Response{data=string} "success"
 // @Router /member/createLevels [post]
-func (*MemberController) CreateLevels(ctx *gin.Context) {
+func (*MemberController) Create(ctx *gin.Context) {
 	params := &dto.CreateLevelInput{}
 	if err := params.BindValidParam(ctx); err != nil {
 		middleware.ResponseError(ctx, 2001, err)
@@ -89,14 +89,14 @@ func (*MemberController) CreateLevels(ctx *gin.Context) {
 	middleware.ResponseSuccess(ctx, "创建成功")
 }
 
-// EditLevels godoc
+// Edit godoc
 // @Summary 修改等级
 // @Tags 会员等级接口
 // @ID /member/editLevels
 // @Param param body dto.EditLevelInput true "数据"
 // @Success 200 {object} middleware.Response{data=string} "success"
 // @Router /member/editLevels [put]
-func (*MemberController) EditLevels(ctx *gin.Context) {
+func (*MemberController) Edit(ctx *gin.Context) {
 	params := &dto.EditLevelInput{}
 	if err := params.BindValidParam(ctx); err != nil {
 		middleware.ResponseError(ctx, 2001, err)
@@ -122,14 +122,14 @@ func (*MemberController) EditLevels(ctx *gin.Context) {
 	middleware.ResponseSuccess(ctx, "编辑成功")
 }
 
-// DelLevels godoc
+// Delete godoc
 // @Summary 批量删除
 // @Tags 会员等级接口
 // @ID /member/delLevels
 // @Param input body dto.LevelsIdInput true "id数组"
 // @Success 200 {object} middleware.Response{data=string} "success"
 // @Router /member/delLevels [delete]
-func (*MemberController) DelLevels(ctx *gin.Context) {
+func (*MemberController) Delete(ctx *gin.Context) {
 	params := &dto.LevelsIdInput{}
 	if err := params.BindValidParam(ctx); err != nil {
 		middleware.ResponseError(ctx, 2001, err)

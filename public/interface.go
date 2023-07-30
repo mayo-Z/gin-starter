@@ -1,4 +1,4 @@
-package dao
+package public
 
 import (
 	"github.com/gin-gonic/gin"
@@ -18,4 +18,10 @@ type CRUD[T any] interface {
 	Create(db *gorm.DB, newContent *T)
 	Edit(db *gorm.DB, newContent map[string]interface{}) error
 	SoftDelete(db *gorm.DB, ids []uint64) error
+}
+type APICRUD interface {
+	Get(ctx *gin.Context)
+	Create(ctx *gin.Context)
+	Edit(ctx *gin.Context)
+	Delete(ctx *gin.Context)
 }

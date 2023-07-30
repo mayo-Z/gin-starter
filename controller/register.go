@@ -10,6 +10,7 @@ import (
 	"gin-starter/public"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type RegisterController struct{}
@@ -97,7 +98,12 @@ func (*RegisterController) Login(ctx *gin.Context) {
 		return
 	}
 	sess := sessions.Default(ctx)
-	sess.Options(sessions.Options{MaxAge: 604800})
+	sess.Options(sessions.Options{
+		Path:     "/",
+		MaxAge:   648000,
+		Secure:   true,
+		SameSite: http.SameSiteNoneMode,
+	})
 	sess.Set(public.AdminSessionInfoKey, string(sessBts))
 
 	err = sess.Save()
